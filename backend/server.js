@@ -1,0 +1,11 @@
+require('dotenv').config();
+const express = require('express'), cors = require('cors'), path = require('path');
+const app = express(); app.use(cors()); app.use(express.json({ limit: '1mb' }));
+app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/products', require('./routes/productRoutes'));
+app.use('/api/orders', require('./routes/orderRoutes'));
+app.use('/api/seller', require('./routes/sellerRoutes'));
+app.use('/api/admin', require('./routes/adminRoutes'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/api', (_q, res) => res.status(404).json({ error: 'Not found' }));
+app.listen(process.env.PORT || 3000, () => console.log('SOKO NEXT on http://localhost:' + (process.env.PORT || 3000)));

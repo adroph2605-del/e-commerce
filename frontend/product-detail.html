@@ -1,0 +1,14 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&family=Sora:wght@700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"><title>SOKO NEXT – Product</title></head><body><header id="hdr"></header>
+<main class="wrap"><div class="pd" id="pd"></div><h2 style="margin-top:2.5rem" data-i18n="reviews"></h2><div id="rv"></div><h2 style="margin-top:2.5rem" data-i18n="related"></h2><div class="grid" id="rel"></div></main>
+<footer id="ftr"></footer><script src="js/i18n.js"></script><script src="js/app.js"></script><script src="js/cart.js"></script><script>
+document.addEventListener('DOMContentLoaded',async()=>{
+ const id=new URLSearchParams(location.search).get('id'),all=await getProducts(),p=all.find(x=>x.id==id)||all[0];if(!p)return;
+ const imgs=[p.image,...['img1','img2','img4','img5'].map(n=>'/assets/images/'+n+'.jpg')].slice(0,4);
+ document.getElementById('pd').innerHTML='<div><img class="main" id="mi" src="'+imgs[0]+'" alt="'+p.name+'"><div class="thumbs">'+imgs.map(s=>'<img src="'+s+'" alt="">').join('')+'</div></div><div><h1>'+p.name+'</h1><div class="stars">'+stars(p.rating)+' '+p.rating+'</div><h2 style="color:var(--o);margin:.6rem 0">'+fmt(+p.price)+'</h2><p>'+(p.description||'')+'</p><p><small>'+p.stock+' '+t('stock')+'</small></p><p style="margin:1rem 0"><label>'+t('qty')+' <input class="fld" id="qt" type="number" min="1" value="1" style="width:90px"></label></p><button class="btn" id="ad">'+t('add')+'</button></div>';
+ document.querySelectorAll('.thumbs img').forEach(i=>i.onclick=()=>document.getElementById('mi').src=i.src);
+ document.getElementById('ad').onclick=()=>addToCart(p,Math.max(1,+document.getElementById('qt').value||1));
+ document.getElementById('rv').innerHTML=[['Amina','Quality is excellent, delivery was fast.',5],['John','Good value for the price.',4]].map(r=>'<div class="rev"><b>'+r[0]+'</b> <span class="stars">'+stars(r[2])+'</span><p>'+r[1]+'</p></div>').join('');
+ const rel=all.filter(x=>x.id!=p.id).slice(0,4);document.getElementById('rel').innerHTML=rel.map(card).join('');
+ document.querySelectorAll('#rel [data-add]').forEach(b=>b.onclick=()=>addToCart(rel.find(x=>x.id==b.dataset.add)));});
+function card(p){return '<article class="card"><a href="product-detail.html?id='+p.id+'" class="im"><img loading="lazy" src="'+p.image+'" alt="'+p.name+'"></a><div class="cb"><h3>'+p.name+'</h3><div class="pr">'+fmt(+p.price)+'</div><button class="btn" data-add="'+p.id+'">'+t('add')+'</button></div></article>'}
+</script></body></html>

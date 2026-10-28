@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&family=Sora:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <title>SOKO NEXT – Global Marketplace</title>
+  <style>
+    /* Soko AI – nafasi safi, haingilii cards zingine */
+    .ai-spotlight{
+      position: relative;
+      margin: 2rem auto 2.5rem;
+      max-width: 920px;
+      padding: 0 1.25rem;
+      z-index: 2;
+    }
+    .ai-box{
+      background: linear-gradient(145deg, #0f1420 0%, #1a2233 100%);
+      border: 1px solid rgba(255,106,0,.3);
+      border-radius: 20px;
+      padding: 1.5rem 1.4rem 1.25rem;
+      box-shadow: 0 12px 36px rgba(0,0,0,.18);
+      color: #e8eef8;
+    }
+    .ai-box-top{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem}
+    .ai-box-icon{
+      width:48px;height:48px;border-radius:14px;
+      background:linear-gradient(135deg,#FF6A00,#ff8c00);
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.45rem;flex-shrink:0;
+      box-shadow:0 6px 16px rgba(255,106,0,.35);
+    }
+    .ai-box-top h2{
+      margin:0;font-family:Sora,sans-serif;font-size:1.25rem;
+      font-weight:800;color:#fff;letter-spacing:-.02em;
+    }
+    .ai-box-top p{margin:.2rem 0 0;font-size:.86rem;color:#9aa8c0;line-height:1.4}
+    .ai-badge{
+      display:inline-block;background:rgba(255,106,0,.18);color:#FF6A00;
+      font-size:.68rem;font-weight:700;padding:.18rem .45rem;border-radius:5px;
+      letter-spacing:.03em;margin-left:.35rem;vertical-align:middle;
+    }
+    .ai-search-row{display:flex;gap:.5rem;align-items:stretch}
+    .ai-search-row input{
+      flex:1;background:#0B0F19;border:1.5px solid #2a3548;border-radius:12px;
+      padding:.85rem 1rem;color:#fff;font-size:.95rem;font-family:inherit;outline:none;
+    }
+    .ai-search-row input::placeholder{color:#6b7a94}
+    .ai-search-row input:focus{border-color:#FF6A00;box-shadow:0 0 0 3px rgba(255,106,0,.18)}
+    .ai-search-row button{
+      background:linear-gradient(135deg,#FF6A00,#e65c00);border:none;color:#fff;
+      padding:0 1.25rem;border-radius:12px;font-weight:700;font-size:.92rem;
+      cursor:pointer;white-space:nowrap;box-shadow:0 4px 14px rgba(255,106,0,.3);
+    }
+    .ai-search-row button:hover{filter:brightness(1.08)}
+    .ai-suggestions{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.9rem}
+    .ai-sug{
+      background:rgba(255,255,255,.06);border:1px solid #2a3548;color:#c5d0e4;
+      padding:.35rem .75rem;border-radius:999px;font-size:.78rem;cursor:pointer;
+    }
+    .ai-sug:hover{border-color:#FF6A00;color:#FF6A00;background:rgba(255,106,0,.08)}
+    @media(max-width:600px){
+      .ai-spotlight{margin:1.25rem auto 1.75rem}
+      .ai-box{padding:1.15rem 1rem 1rem;border-radius:16px}
+      .ai-box-top h2{font-size:1.05rem}
+      .ai-search-row{flex-direction:column}
+      .ai-search-row button{padding:.8rem}
+    }
+  </style>
+</head>
+<body>
+<header id="hdr"></header>
+<main>
+  <section class="hero">
+    <div class="slide on" style="background-image:url(assets/images/img1.jpg)"></div>
+    <div class="slide" style="background-image:url(assets/images/img4.jpg)"></div>
+    <div class="slide" style="background-image:url(assets/images/img5.jpg)"></div>
+    <div class="hc">
+      <h1 id="tw"></h1>
+      <p data-i18n="heroSub"></p>
+      <a class="btn" href="#catalog" data-i18n="shop"></a>
+      <a class="btn ghost" style="color:#fff;border-color:#fff8" href="auth.html?role=seller" data-i18n="sell"></a>
+      <div class="stats">
+        <div><b><span data-count="10">0</span>K+</b><small data-i18n="c1"></small></div>
+        <div><b><span data-count="500">0</span>+</b><small data-i18n="c2"></small></div>
+        <div><b><span data-count="99.9">0</span>%</b><small data-i18n="c3"></small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Soko AI – chini ya hero, nafasi safi -->
+  <section class="ai-spotlight" id="soko-ai-home">
+    <div class="ai-box">
+      <div class="ai-box-top">
+        <div class="ai-box-icon">🤖</div>
+        <div>
+          <h2>Soko AI <span class="ai-badge">NEW</span></h2>
+          <p id="ai-home-sub">Ask anything — products, shipping, promo codes, or get directed to the right page.</p>
+        </div>
+      </div>
+      <form class="ai-search-row" id="ai-home-form">
+        <input id="ai-home-input" type="text" autocomplete="off"
+               placeholder="e.g. Show me laptops under 3 million… / Onyesha simu…">
+        <button type="submit">Ask AI →</button>
+      </form>
+      <div class="ai-suggestions" id="ai-home-chips">
+        <button type="button" class="ai-sug" data-q="Show laptops">💻 Laptops</button>
+        <button type="button" class="ai-sug" data-q="Promo SOKO10">🎁 Promo SOKO10</button>
+        <button type="button" class="ai-sug" data-q="Shipping cost">🚚 Shipping</button>
+        <button type="button" class="ai-sug" data-q="How to become a seller">🏪 Become seller</button>
+        <button type="button" class="ai-sug" data-q="Payment methods">💳 Payments</button>
+        <button type="button" class="ai-sug" data-q="Open my cart">🛒 My cart</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2 data-i18n="topCats"></h2>
+    <div class="tiles">
+      <a href="index.html?category=electronics" style="background-image:url(assets/images/img3.jpg)"><span>Electronics</span></a>
+      <a href="index.html?category=home" style="background-image:url(assets/images/img6.jpg)"><span>Home &amp; Living</span></a>
+      <a href="index.html?category=fashion" style="background-image:url(assets/images/img2.jpg)"><span>Fashion</span></a>
+      <a href="index.html?category=business" style="background-image:url(assets/images/img4.jpg)"><span>Business Supplies</span></a>
+    </div>
+  </section>
+
+  <section class="sellband">
+    <div>
+      <h2>SOKO NEXT Seller Hub</h2>
+      <p data-i18n="sellBand"></p>
+      <a class="btn" href="auth.html?role=seller" data-i18n="sell"></a>
+    </div>
+  </section>
+
+  <section class="wrap" id="catalog">
+    <h2 data-i18n="featured"></h2>
+    <div class="grid" id="grid"></div>
+  </section>
+</main>
+<footer id="ftr"></footer>
+
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+<script src="js/ai-assistant.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script>
+(function () {
+  function applyAiHomeLang() {
+    const sw = (localStorage.sn_lang || 'en') === 'sw';
+    const sub = document.getElementById('ai-home-sub');
+    const input = document.getElementById('ai-home-input');
+    const btn = document.querySelector('#ai-home-form button');
+    if (sub) sub.textContent = sw
+      ? 'Uliza chochote — bidhaa, usafirishaji, promo, au nikupeleke ukurasa sahihi.'
+      : 'Ask anything — products, shipping, promo codes, or get directed to the right page.';
+    if (input) input.placeholder = sw
+      ? 'mf. Onyesha laptop chini ya milioni 3… / Shipping…'
+      : 'e.g. Show me laptops under 3 million… / Onyesha simu…';
+    if (btn) btn.textContent = sw ? 'Uliza AI →' : 'Ask AI →';
+  }
+  applyAiHomeLang();
+
+  function openAI(q) {
+    const tryOpen = () => {
+      if (window.sokoAIAsk) { window.sokoAIAsk(q || ''); return true; }
+      const fab = document.getElementById('soko-ai-btn');
+      if (!fab) return false;
+      fab.click();
+      if (q) {
+        setTimeout(() => {
+          const inp = document.getElementById('soko-ai-input');
+          const form = document.getElementById('soko-ai-form');
+          if (inp && form) { inp.value = q; form.requestSubmit(); }
+        }, 350);
+      }
+      return true;
+    };
+    if (!tryOpen()) setTimeout(tryOpen, 400);
+  }
+
+  document.getElementById('ai-home-form')?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const q = (document.getElementById('ai-home-input').value || '').trim();
+    openAI(q || null);
+    document.getElementById('ai-home-input').value = '';
+  });
+
+  document.querySelectorAll('#ai-home-chips .ai-sug').forEach(b => {
+    b.addEventListener('click', () => openAI(b.getAttribute('data-q')));
+  });
+})();
+</script>
+</body>
+</html>

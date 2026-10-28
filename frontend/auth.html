@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <title>SOKO NEXT – Sign in</title>
+  <style>
+    body.auth-page{min-height:100vh;margin:0;background:#0B0F19;color:#e8eef8}
+    .auth-shell{min-height:100vh;display:grid;grid-template-columns:1.05fr 1fr}
+    .auth-brand{
+      position:relative;padding:2.5rem clamp(1.5rem,4vw,3.5rem);
+      background:linear-gradient(145deg,#0B0F19 0%,#1a1208 50%,#2a1808 100%);
+      display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;
+    }
+    .auth-brand:before{
+      content:"";position:absolute;inset:0;
+      background:url(assets/images/img1.jpg) center/cover;
+      opacity:.18;mix-blend-mode:luminosity;
+    }
+    .auth-brand > *{position:relative;z-index:1}
+    .auth-brand .logo{font-size:1.6rem;color:#fff;text-decoration:none}
+    .auth-brand .logo b{color:#FC6C26}
+    .auth-brand h1{font-family:Sora,sans-serif;font-size:clamp(1.8rem,3.5vw,2.6rem);line-height:1.15;margin:2rem 0 .8rem;color:#fff;max-width:16ch}
+    .auth-brand p.lead{color:#b8c0d0;font-size:1.02rem;line-height:1.55;max-width:36ch}
+    .auth-points{list-style:none;margin:2rem 0 0;padding:0}
+    .auth-points li{display:flex;gap:.7rem;align-items:flex-start;margin:.7rem 0;color:#cfd8e8;font-size:.92rem}
+    .auth-points li span{width:22px;height:22px;border-radius:50%;background:rgba(252,108,38,.2);color:#FC6C26;display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;margin-top:1px}
+    .auth-brand-foot{font-size:.8rem;color:#8b95a8;margin-top:2rem}
+    .auth-brand-foot a{color:#FC6C26}
+    .auth-panel{display:flex;flex-direction:column;background:#0f1420;border-left:1px solid rgba(255,255,255,.06)}
+    .auth-topbar{display:flex;justify-content:flex-end;align-items:center;gap:.6rem;padding:1rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.06)}
+    .auth-topbar select,.auth-topbar button{background:#1a2233;color:#cfd8e8;border:1px solid #2a3548;border-radius:8px;padding:.4rem .65rem;font:inherit;cursor:pointer;font-size:.85rem}
+    .auth-body{flex:1;display:flex;align-items:center;justify-content:center;padding:1.5rem clamp(1rem,3vw,2.5rem)}
+    .auth-card{width:100%;max-width:440px;background:#131a2a;border:1px solid #243044;border-radius:20px;padding:1.75rem 1.6rem 1.5rem;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+    .auth-card h2{font-family:Sora,sans-serif;font-size:1.45rem;margin:0 0 .35rem;color:#fff}
+    .auth-card .sub{color:#9aa8c0;font-size:.9rem;margin-bottom:1.25rem}
+    .auth-tabs{display:flex;gap:.35rem;background:#0B0F19;padding:.3rem;border-radius:12px;margin-bottom:1.25rem}
+    .auth-tabs button{flex:1;border:0;background:transparent;color:#9aa8c0;padding:.55rem .4rem;border-radius:9px;font:600 .9rem inherit;cursor:pointer;transition:.15s}
+    .auth-tabs button.on{background:#FC6C26;color:#fff;box-shadow:0 4px 14px rgba(252,108,38,.35)}
+    .fld-wrap{margin-bottom:.85rem;position:relative}
+    .fld-wrap label{display:block;font-size:.78rem;font-weight:600;color:#9aa8c0;margin-bottom:.35rem;letter-spacing:.02em}
+    .fld-wrap .fld{width:100%;padding:.7rem .9rem;border-radius:10px;border:1.5px solid #2a3548;background:#0B0F19;color:#fff;font:inherit;outline:none;transition:border-color .15s,box-shadow .15s}
+    .fld-wrap .fld:focus{border-color:#FC6C26;box-shadow:0 0 0 3px rgba(252,108,38,.18)}
+    .fld-wrap .fld.err{border-color:#e55353}
+    .fld-wrap .hint{font-size:.75rem;color:#e55353;margin-top:.3rem;min-height:1em}
+    .fld-wrap .eye{position:absolute;right:.7rem;top:2.05rem;background:none;border:0;color:#9aa8c0;cursor:pointer;font-size:1rem;padding:.2rem}
+    .strength{height:4px;border-radius:99px;background:#2a3548;margin-top:.45rem;overflow:hidden}
+    .strength i{display:block;height:100%;width:0;border-radius:99px;transition:.25s}
+    .strength.weak i{width:33%;background:#e55353}
+    .strength.medium i{width:66%;background:#e6a817}
+    .strength.strong i{width:100%;background:#22c55e}
+    .strength-label{font-size:.72rem;color:#9aa8c0;margin-top:.25rem}
+    .role-pills{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.9rem}
+    .role-pills label{display:flex;align-items:center;gap:.5rem;padding:.7rem .8rem;border-radius:12px;border:1.5px solid #2a3548;background:#0B0F19;cursor:pointer;font-size:.88rem;color:#cfd8e8;transition:.15s}
+    .role-pills label:has(input:checked){border-color:#FC6C26;background:rgba(252,108,38,.1);color:#fff}
+    .role-pills input{accent-color:#FC6C26}
+    .seller-steps{display:flex;gap:.4rem;margin-bottom:1rem}
+    .seller-steps span{flex:1;height:4px;border-radius:99px;background:#2a3548}
+    .seller-steps span.on{background:#FC6C26}
+    .step-panel[hidden]{display:none!important}
+    .row-2{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+    .check-row{display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:#9aa8c0;margin:.4rem 0 1rem}
+    .check-row input{accent-color:#FC6C26}
+    .check-row a{color:#FC6C26}
+    .btn-auth{width:100%;padding:.85rem 1rem;border:0;border-radius:12px;background:linear-gradient(135deg,#FC6C26,#e55a1a);color:#fff;font:700 1rem inherit;cursor:pointer;box-shadow:0 8px 24px rgba(252,108,38,.35);transition:filter .15s,transform .15s}
+    .btn-auth:hover{filter:brightness(1.06);transform:translateY(-1px)}
+    .btn-auth:disabled{opacity:.55;cursor:not-allowed;transform:none}
+    .btn-ghost-auth{width:100%;padding:.7rem;margin-top:.55rem;border:1px solid #2a3548;border-radius:12px;background:transparent;color:#cfd8e8;font:600 .9rem inherit;cursor:pointer}
+    .btn-ghost-auth:hover{border-color:#FC6C26;color:#FC6C26}
+    .divider{display:flex;align-items:center;gap:.8rem;margin:1.1rem 0;color:#6b7a94;font-size:.78rem}
+    .divider:before,.divider:after{content:"";flex:1;height:1px;background:#2a3548}
+    .social-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+    .social-grid button{display:flex;align-items:center;justify-content:center;gap:.45rem;padding:.65rem;border-radius:10px;border:1px solid #2a3548;background:#0B0F19;color:#cfd8e8;font:600 .82rem inherit;cursor:pointer}
+    .social-grid button:hover{border-color:#FC6C26;color:#fff}
+    .social-grid button svg{width:18px;height:18px}
+    .auth-links{text-align:center;margin-top:1rem;font-size:.88rem;color:#9aa8c0}
+    .auth-links a,.auth-links .linkish{color:#FC6C26;font-weight:600;background:none;border:0;cursor:pointer;font:inherit}
+    .err-banner{background:rgba(229,83,83,.12);border:1px solid rgba(229,83,83,.35);color:#f5a8a8;padding:.65rem .8rem;border-radius:10px;font-size:.85rem;margin-bottom:.9rem}
+    .mfa-code{display:flex;gap:.4rem;justify-content:center;margin:1rem 0}
+    .mfa-code input{width:42px;height:48px;text-align:center;font-size:1.25rem;font-weight:700;border-radius:10px;border:1.5px solid #2a3548;background:#0B0F19;color:#fff}
+    .mfa-code input:focus{border-color:#FC6C26;outline:none}
+    .status-box{text-align:center;padding:.5rem 0}
+    .status-box .ico{font-size:2.5rem;margin-bottom:.5rem}
+    .status-box h3{color:#fff;margin:.3rem 0}
+    .status-box p{color:#9aa8c0;font-size:.92rem;line-height:1.5}
+    .panel[hidden]{display:none!important}
+    @media(max-width:900px){
+      .auth-shell{grid-template-columns:1fr}
+      .auth-brand{min-height:auto;padding:1.5rem 1.25rem}
+      .auth-brand h1{font-size:1.5rem;margin:1rem 0 .5rem}
+      .auth-points{display:none}
+      .auth-panel{border-left:0}
+    }
+  </style>
+</head>
+<body class="auth-page">
+  <div class="auth-shell">
+    <aside class="auth-brand">
+      <div>
+        <a class="logo" href="index.html">SOKO<b>NEXT</b></a>
+        <h1>Shop &amp; sell across Africa</h1>
+        <p class="lead">One account for customers and sellers. Secure checkout, multi-currency, and vendor tools in one place.</p>
+        <ul class="auth-points">
+          <li><span>✓</span> Fast checkout &amp; order tracking</li>
+          <li><span>✓</span> Sell with store approval &amp; commission tools</li>
+          <li><span>✓</span> M-PESA, cards &amp; multi-currency</li>
+          <li><span>✓</span> Admin-grade security for operators</li>
+        </ul>
+      </div>
+      <p class="auth-brand-foot">Need help? <a href="mailto:adroph2605@gmail.com">adroph2605@gmail.com</a></p>
+    </aside>
+
+    <div class="auth-panel">
+      <div class="auth-topbar">
+        <select id="auth-cur" aria-label="Currency">
+          <option>TZS</option><option>USD</option><option>KES</option><option>EUR</option>
+        </select>
+        <button type="button" id="auth-lang">SW</button>
+        <a href="index.html" style="color:#9aa8c0;font-size:.85rem">← Store</a>
+      </div>
+      <div class="auth-body">
+        <div class="auth-card">
+                      <!-- LOGIN -->
+          <div class="panel" id="panel-login">
+            <h2>Sign in</h2>
+            <p class="sub">Welcome back. Use your email to continue.</p>
+            <div class="auth-tabs">
+              <button type="button" class="on" data-go="login">Sign in</button>
+              <button type="button" data-go="register">Create account</button>
+            </div>
+            <div id="loginErr" class="err-banner" hidden></div>
+            <form id="form-login" novalidate>
+              <div class="fld-wrap">
+                <label for="login-email">Email</label>
+                <input class="fld" id="login-email" type="email" autocomplete="email" placeholder="you@example.com" required>
+              </div>
+              <div class="fld-wrap">
+                <label for="login-password">Password</label>
+                <input class="fld" id="login-password" type="password" autocomplete="current-password" required>
+                <button type="button" class="eye" data-toggle-pw="login-password" aria-label="Show password">👁</button>
+                <div class="strength" id="login-pw-bar"><i></i></div>
+                <div class="strength-label" id="login-pw-label"></div>
+              </div>
+              <div class="check-row">
+                <input type="checkbox" id="login-remember" checked>
+                <label for="login-remember">Remember me</label>
+              </div>
+              <button type="submit" class="btn-auth">Sign in</button>
+            </form>
+            <div class="divider">or continue with</div>
+            <div class="social-grid">
+              <button type="button" data-social="Google"><svg viewBox="0 0 24 24"><path fill="#EA4335" d="M12 10.2v3.6h5.1c-.2 1.2-1.5 3.6-5.1 3.6-3.1 0-5.6-2.5-5.6-5.6S8.9 6.2 12 6.2c1.8 0 3 .7 3.7 1.4l2.5-2.4C16.8 3.7 14.6 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.5 0 9.1-3.9 9.1-9.3 0-.6-.1-1.1-.2-1.6H12z"/></svg> Google</button>
+              <button type="button" data-social="Facebook"><svg viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04v-2.66c0-3.02 1.79-4.7 4.53-4.7 1.31 0 2.68.24 2.68.24v2.95h-1.51c-1.49 0-1.95.93-1.95 1.89v2.28h3.32l-.53 3.49h-2.79V24C19.62 23.1 24 18.1 24 12.07z"/></svg> Facebook</button>
+              <button type="button" data-social="Apple"> Apple</button>
+              <button type="button" data-social="Phone"> Phone / OTP</button>
+            </div>
+            <div class="auth-links">
+              <button type="button" class="linkish" data-go="forgot">Forgot password?</button>
+              · <button type="button" class="linkish" id="btn-guest">Continue as guest</button>
+            </div>
+          </div>
+
+          <!-- REGISTER -->
+          <div class="panel" id="panel-register" hidden>
+            <h2>Create account</h2>
+            <p class="sub">Customer or seller — choose below.</p>
+            <div class="auth-tabs">
+              <button type="button" data-go="login">Sign in</button>
+              <button type="button" class="on" data-go="register">Create account</button>
+            </div>
+            <div class="role-pills">
+              <label><input type="radio" name="role" value="customer" checked> 🛒 Customer</label>
+              <label><input type="radio" name="role" value="seller"> 🏪 Seller</label>
+            </div>
+            <div class="seller-steps" id="seller-steps" hidden>
+              <span class="on"></span><span></span><span></span>
+            </div>
+            <div id="regErr" class="err-banner" hidden></div>
+            <form id="form-register" novalidate>
+              <div class="step-panel" data-step="1">
+                <div class="fld-wrap">
+                  <label for="reg-name">Full name</label>
+                  <input class="fld" id="reg-name" type="text" autocomplete="name" required>
+                </div>
+                <div class="fld-wrap">
+                  <label for="reg-email">Email</label>
+                  <input class="fld" id="reg-email" type="email" autocomplete="email" required>
+                </div>
+                <div class="fld-wrap">
+                  <label for="reg-password">Password (min 6)</label>
+                  <input class="fld" id="reg-password" type="password" autocomplete="new-password" required>
+                  <button type="button" class="eye" data-toggle-pw="reg-password">👁</button>
+                  <div class="strength" id="pw-bar"><i></i></div>
+                  <div class="strength-label" id="pw-label"></div>
+                </div>
+              </div>
+              <div id="seller-fields" hidden>
+                <div class="step-panel" data-step="2">
+                  <div class="fld-wrap">
+                    <label for="reg-store">Store name</label>
+                    <input class="fld" id="reg-store" type="text" placeholder="e.g. Dar Gadgets">
+                  </div>
+                  <div class="fld-wrap">
+                    <label for="reg-tin">Business / TIN (optional)</label>
+                    <input class="fld" id="reg-tin" type="text" placeholder="TIN or reg. number">
+                  </div>
+                </div>
+                <div class="step-panel" data-step="3" hidden>
+                  <div class="fld-wrap">
+                    <label for="reg-payout">M-PESA / Bank payout</label>
+                    <input class="fld" id="reg-payout" type="text" placeholder="2557… or account">
+                  </div>
+                  <p class="sub" style="margin-top:0">Store stays <b>Pending</b> until admin approval.</p>
+                </div>
+              </div>
+              <div class="check-row">
+                <input type="checkbox" id="reg-bot">
+                <label for="reg-bot">I’m not a robot</label>
+              </div>
+              <button type="submit" class="btn-auth" id="btn-reg">Create account</button>
+              <button type="button" class="btn-ghost-auth" id="btn-seller-back" hidden>← Back</button>
+            </form>
+            <div class="auth-links">
+              <button type="button" class="linkish" data-go="login">Already have an account? Sign in</button>
+            </div>
+          </div>
+
+          <!-- FORGOT -->
+          <div class="panel" id="panel-forgot" hidden>
+            <h2>Reset password</h2>
+            <p class="sub">We’ll send a reset link if the email exists.</p>
+            <div id="forgotErr" class="err-banner" hidden></div>
+            <form id="form-forgot" novalidate>
+              <div class="fld-wrap">
+                <label for="forgot-email">Email</label>
+                <input class="fld" id="forgot-email" type="email" placeholder="you@example.com" required>
+              </div>
+              <button type="submit" class="btn-auth">Send reset link</button>
+            </form>
+            <div class="auth-links">
+              <button type="button" class="linkish" data-go="login">← Back to sign in</button>
+            </div>
+          </div>
+
+          <!-- MFA -->
+          <div class="panel" id="panel-mfa" hidden>
+            <h2>Admin verification</h2>
+            <p class="sub">Enter the 6-digit code (demo: <b>123456</b>)</p>
+            <div id="mfaErr" class="err-banner" hidden></div>
+            <div class="mfa-code" id="mfa-inputs">
+              <input maxlength="1" inputmode="numeric" aria-label="Digit 1">
+              <input maxlength="1" inputmode="numeric" aria-label="Digit 2">
+              <input maxlength="1" inputmode="numeric" aria-label="Digit 3">
+              <input maxlength="1" inputmode="numeric" aria-label="Digit 4">
+              <input maxlength="1" inputmode="numeric" aria-label="Digit 5">
+              <input maxlength="1" inputmode="numeric" aria-label="Digit 6">
+            </div>
+            <button type="button" class="btn-auth" id="btn-mfa">Verify &amp; continue</button>
+            <div class="auth-links">
+              <button type="button" class="linkish" data-go="login">Cancel</button>
+            </div>
+          </div>
+
+          <!-- SELLER STATUS -->
+          <div class="panel" id="panel-status" hidden>
+            <div class="status-box">
+              <div class="ico" id="statusIco">⏳</div>
+              <h3 id="statusTitle">Application under review</h3>
+              <p id="statusMsg">Your seller account is pending admin approval.</p>
+              <button type="button" class="btn-auth" style="margin-top:1rem" onclick="location.href='index.html'">Go to marketplace</button>
+              <a href="mailto:adroph2605@gmail.com" class="btn-ghost-auth" style="display:block;text-align:center;margin-top:.5rem">Contact support</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/i18n.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
