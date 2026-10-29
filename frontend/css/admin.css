@@ -1,7 +1,34 @@
-.adm{max-width:1200px;margin:auto;padding:2rem clamp(1rem,4vw,2rem)}
-.statg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1rem 0 2rem}
-.stat{padding:1.2rem;border-radius:var(--r)}.stat small{color:var(--mut)}.stat b{display:block;font:800 1.7rem 'Sora',sans-serif;color:var(--o)}
-table{width:100%;border-collapse:collapse;background:var(--card);border-radius:var(--r);overflow:hidden;margin:1rem 0 2rem}
-th,td{padding:.7rem 1rem;text-align:left;border-bottom:1px solid var(--bd)}th{background:var(--v);color:#3b2a10}
-.pform{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.7rem;padding:1.2rem;border-radius:var(--r)}
-.tw{overflow-x:auto}
+/* Admin + Seller – responsive (simu / tablet / PC) */
+.adm{max-width:1200px;margin:auto;padding:1.5rem clamp(.85rem,3.5vw,2rem)}
+.statg{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:.9rem;margin:1rem 0 1.75rem}
+.stat{padding:1.1rem;border-radius:var(--r,14px);background:var(--card,#fff);border:1px solid var(--bd,#0001)}
+.stat small{color:var(--mut,#667);font-size:.8rem}
+.stat b{display:block;font:800 clamp(1.25rem,3vw,1.7rem) 'Sora',sans-serif;color:var(--o,#FC6C26)}
+table{width:100%;border-collapse:collapse;background:var(--card,#fff);border-radius:var(--r,14px);overflow:hidden;margin:1rem 0 1.75rem;font-size:.9rem}
+th,td{padding:.65rem .85rem;text-align:left;border-bottom:1px solid var(--bd,#0001)}
+th{background:var(--v,#FFF4D6);color:#3b2a10}
+[data-theme=dark] th{background:#1a2133;color:var(--v,#FFF4D6)}
+.pform{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:.65rem;padding:1.1rem;border-radius:var(--r,14px)}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%;margin-bottom:1rem}
+.tw table{min-width:520px}
+
+@media(max-width:900px){
+  .adm{padding:1.25rem 1rem}
+  .pform{grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr))}
+}
+
+@media(max-width:640px){
+  .adm{padding:1rem .85rem}
+  .statg{grid-template-columns:1fr 1fr;gap:.65rem}
+  .stat{padding:.85rem}
+  .stat b{font-size:1.2rem}
+  table{font-size:.8rem}
+  th,td{padding:.5rem .5rem}
+  .tw table{min-width:460px}
+  .pform{grid-template-columns:1fr;padding:.85rem}
+  h1{font-size:1.35rem}
+}
+
+@media(max-width:400px){
+  .statg{grid-template-columns:1fr}
+}
