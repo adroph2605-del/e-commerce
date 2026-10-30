@@ -92,8 +92,9 @@
     if (status === 'Active') setTimeout(() => (location.href = 'seller.html'), 800);
   }
 
+  const API_BASE = 'https://YOUR-RENDER-SERVICE.onrender.com/api';
   async function apiAuth(path, body) {
-    const r = await fetch('/api/auth' + path, {
+    const r = await fetch(API_BASE + '/auth' + path, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)

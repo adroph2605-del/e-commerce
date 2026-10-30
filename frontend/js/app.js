@@ -1,4 +1,8 @@
-const RATES = { TZS: 1, USD: 0.0004, KES: 0.0516, EUR: 0.00037 }; // static demo rates: replace with a live FX API
+/* ========== RENDER API – badilisha URL baada ya deploy ========== */
+const API_BASE = (localStorage.getItem('sn_api') || 'https://YOUR-RENDER-SERVICE.onrender.com/api');
+/* mfano: 'https://soko-next-api.onrender.com/api' */
+
+const RATES = { TZS: 1, USD: 0.0004, KES: 0.0516, EUR: 0.00037 };
 const SYM = { TZS: 'TSh', USD: '$', KES: 'KSh', EUR: '€' };
 const CUR = () => localStorage.sn_cur || 'TZS';
 const fmt = n => SYM[CUR()] + ' ' + (n * RATES[CUR()]).toLocaleString(undefined, { maximumFractionDigits: CUR() === 'TZS' || CUR() === 'KES' ? 0 : 2 });
@@ -11,13 +15,29 @@ const FALLBACK = [
   { id: 5, name: 'Starter Seller Kit', price: 120000, image: '/assets/images/img1.jpg', rating: 4.4, badge: 'Deal', category: 'business', stock: 120, description: 'Boxes, tape, labels and bags.' },
   { id: 6, name: 'Rainbow Socks (6 pairs)', price: 35000, image: '/assets/images/img2.jpg', rating: 4.9, badge: 'Top', category: 'fashion', stock: 200, description: 'Colourful cotton socks.' }
 ];
+
 async function api(path, opts = {}) {
-  const h = { 'Content-Type': 'application/json' }; if (localStorage.sn_token) h.Authorization = 'Bearer ' + localStorage.sn_token;
-  const r = await fetch('/api' + path, { ...opts, headers: h, body: opts.body ? JSON.stringify(opts.body) : undefined });
-  const d = await r.json().catch(() => ({})); if (!r.ok) throw new Error(d.error || 'Error'); return d;
+  const h = { 'Content-Type': 'application/json' };
+  if (localStorage.sn_token) h.Authorization = 'Bearer ' + localStorage.sn_token;
+  const r = await fetch(API_BASE + path, {
+    ...opts,
+    headers: h,
+    body: opts.body ? JSON.stringify(opts.body) : undefined
+  });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(d.error || 'Error');
+  return d;
 }
+
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => '&#' + c.charCodeAt(0) + ';');
-const clean = p => ({ ...p, name: esc(p.name), description: esc(p.description), store: esc(p.store), badge: p.badge ? esc(p.badge) : p.badge, image: /^(\/|https:\/\/)/.test(p.image || '') ? p.image : '/assets/images/img1.jpg' });
+const clean = p => ({
+  ...p,
+  name: esc(p.name),
+  description: esc(p.description),
+  store: esc(p.store),
+  badge: p.badge ? esc(p.badge) : p.badge,
+  image: /^(\/|https:\/\/)/.test(p.image || '') ? p.image : '/assets/images/img1.jpg'
+});
 async function getProducts(qs = '') { return (await rawProducts(qs)).map(clean); }
 async function rawProducts(qs = '') {
   try { return await api('/products' + qs); } catch {
@@ -26,8 +46,17 @@ async function rawProducts(qs = '') {
   }
 }
 function toast(msg, type = 'ok') {
-  let box = document.getElementById('toasts'); if (!box) { box = document.createElement('div'); box.id = 'toasts'; box.setAttribute('aria-live', 'polite'); document.body.append(box); }
-  const e = document.createElement('div'); e.className = 'toast ' + type; e.textContent = msg; box.append(e);
+  let box = document.getElementById('toasts');
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'toasts';
+    box.setAttribute('aria-live', 'polite');
+    document.body.append(box);
+  }
+  const e = document.createElement('div');
+  e.className = 'toast ' + type;
+  e.textContent = msg;
+  box.append(e);
   setTimeout(() => { e.classList.add('out'); setTimeout(() => e.remove(), 300); }, 3000);
 }
 const stars = r => '★'.repeat(Math.round(r)) + '☆'.repeat(5 - Math.round(r));
@@ -99,14 +128,45 @@ function layout() {
   </div>`;
 
   document.getElementById('yr').textContent = new Date().getFullYear();
-  document.getElementById('theme').onclick = () => { localStorage.sn_theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; layout(); applyI18n(); wire(); };
-  document.getElementById('lang').onclick = () => { localStorage.sn_lang = (localStorage.sn_lang || 'en') === 'en' ? 'sw' : 'en'; location.reload(); };
-  document.getElementById('cur').onchange = e => { localStorage.sn_cur = e.target.value; location.reload(); };
-  const o = document.getElementById('out'); if (o) o.onclick = e => { e.preventDefault(); localStorage.removeItem('sn_token'); localStorage.removeItem('sn_user'); location.href = 'index.html'; };
-  document.getElementById('nl').onsubmit = e => { e.preventDefault(); toast(t('subOk')); e.target.reset(); };
-  document.getElementById('sf').onsubmit = e => { e.preventDefault(); location.href = 'index.html?q=' + encodeURIComponent(document.getElementById('q').value); };
+  document.getElementById('theme').onclick = () => {
+    localStorage.sn_theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    layout(); applyI18n(); wire();
+  };
+  document.getElementById('lang').onclick = () => {
+    localStorage.sn_lang = (localStorage.sn_lang || 'en') === 'en' ? 'sw' : 'en';
+    location.reload();
+  };
+  document.getElementById('cur').onchange = e => {
+    localStorage.sn_cur = e.target.value;
+    location.reload();
+  };
+  const o = document.getElementById('out');
+  if (o) o.onclick = e => {
+    e.preventDefault();
+    localStorage.removeItem('sn_token');
+    localStorage.removeItem('sn_user');
+    location.href = 'index.html';
+  };
+  document.getElementById('nl').onsubmit = e => {
+    e.preventDefault();
+    toast(t('subOk'));
+    e.target.reset();
+  };
+  document.getElementById('sf').onsubmit = e => {
+    e.preventDefault();
+    location.href = 'index.html?q=' + encodeURIComponent(document.getElementById('q').value);
+  };
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition, mic = document.getElementById('mic');
-  if (!SR) mic.hidden = true; else mic.onclick = () => { const r = new SR(); r.lang = localStorage.sn_lang === 'sw' ? 'sw-TZ' : 'en-US'; r.onresult = ev => { document.getElementById('q').value = ev.results[0][0].transcript; document.getElementById('sf').requestSubmit(); }; r.start(); };
+  if (!SR) mic.hidden = true;
+  else mic.onclick = () => {
+    const r = new SR();
+    r.lang = localStorage.sn_lang === 'sw' ? 'sw-TZ' : 'en-US';
+    r.onresult = ev => {
+      document.getElementById('q').value = ev.results[0][0].transcript;
+      document.getElementById('sf').requestSubmit();
+    };
+    r.start();
+  };
   if (window.updateCartBadge) updateCartBadge();
 }
 function wire() { applyI18n(); }
