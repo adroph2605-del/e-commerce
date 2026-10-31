@@ -92,7 +92,10 @@
     if (status === 'Active') setTimeout(() => (location.href = 'seller.html'), 800);
   }
 
-  const API_BASE = 'https://YOUR-RENDER-SERVICE.onrender.com/api';
+  const API_BASE = localStorage.getItem('sn_api') ||
+    (['localhost', '127.0.0.1'].includes(location.hostname)
+      ? 'http://localhost:3000/api'
+      : 'https://YOUR-RENDER-SERVICE.onrender.com/api');
   async function apiAuth(path, body) {
     const r = await fetch(API_BASE + '/auth' + path, {
       method: 'POST',

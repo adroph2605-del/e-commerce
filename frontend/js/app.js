@@ -1,5 +1,8 @@
 /* ========== RENDER API – badilisha URL baada ya deploy ========== */
-const API_BASE = (localStorage.getItem('sn_api') || 'https://YOUR-RENDER-SERVICE.onrender.com/api');
+const API_BASE = localStorage.getItem('sn_api') ||
+  (['localhost', '127.0.0.1'].includes(location.hostname)
+    ? 'http://localhost:3000/api'
+    : 'https://YOUR-RENDER-SERVICE.onrender.com/api');
 /* mfano: 'https://soko-next-api.onrender.com/api' */
 
 const RATES = { TZS: 1, USD: 0.0004, KES: 0.0516, EUR: 0.00037 };
@@ -63,6 +66,7 @@ const stars = r => '★'.repeat(Math.round(r)) + '☆'.repeat(5 - Math.round(r))
 
 function layout() {
   document.documentElement.dataset.theme = localStorage.sn_theme || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+  if (!document.getElementById('hdr') || !document.getElementById('ftr')) return;
   const u = user(), cats = ['electronics', 'home', 'fashion', 'business'];
   document.getElementById('hdr').innerHTML = `<div class="bar glass"><a class="logo" href="index.html">SOKO<b>NEXT</b></a>
   <form class="search" id="sf"><input id="q" data-ph="search" autocomplete="off" aria-label="Search"><button type="button" id="mic" title="Voice search">🎤</button></form>
